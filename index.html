@@ -1,0 +1,78 @@
+<html>
+	<head>
+		<script type="text/javascript" src="../jquery.min.js"></script>
+		<script>
+		
+		
+			var route = {};
+			route.out = function(e){
+				console.log(e)	
+			};
+		
+		
+			var outputTarget = "#output";
+			$(document).ready( function(){
+			/* POST */
+				/* override form submits */
+					var myPostActions = $('form').each(function(i,e){
+						var myPostAction = $(e).attr('action');
+						/* replace form action with location.hash reference */
+						/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
+						myPostAction = '#' + myPostAction;
+						/* you could also do REGEX replacements here */
+						//myPostAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
+						$(e).attr('action',myPostAction);
+						$(e).data('route',myPostAction);
+						$(e).data('in','');
+						$(e).data('out',outputTarget);
+				//		console.log($(e).data('out'));
+				});
+			/* GET */
+				/* override links */
+				var myGetActions = $('a').each(function(i,e){
+					var myGetAction = $(e).attr('href');
+						/* replace <a href with location.hash reference */
+						/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
+						myGetAction = '#' + myGetAction;
+						/* you could also do REGEX replacements here */
+						//myGetAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
+						/* you could add a conditional here to prevent href replacement */
+						$(e).attr('href',myGetAction);
+						$(e).data('route',myGetAction);
+						$(e).data('in','');
+						$(e).data('out',outputTarget);
+
+				//		console.log($(e).data('out'));
+				});
+		});
+		</script>	
+		<style>
+			#output{ width:600px; height:800px; border:solid; border-color:#000;}
+			div{overflow:auto;}
+			.layout{}
+			.output{height:200px;}
+		</style>
+	</head>
+	<body>
+    	<noscript>This page is an example of a 100% client side templating engine. The body will remain empty without JavaScript.</noscript>
+        
+        
+        <form id="theForm" action="index.html" method="post">
+        	<input name="submit" type="submit" value="Test Submit Form"/>
+        </form>
+
+        <form id="loginForm" action="/login" method="post">
+        	<input name="submit" type="submit" value="Login Form"/>
+        </form>
+
+        
+        <a href="/blog/I-am-blogging">Blog Post</a>
+        <a href="/admin">Admin Entry</a>
+        <a href="/admin/manage/blog/I-am-blogging">Manage Blog Post</a>
+        
+        <div id="output">
+        
+        </div>
+        
+    </body>
+</html>
