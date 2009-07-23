@@ -5,13 +5,27 @@
 		
 		
 			var route = {};
+			route.register = function(el,route){
+
+				/* replace form action with location.hash reference */
+				/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
+				
+				/* you could also do REGEX replacements here */
+				//myPostAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
+				$(el).data('route',route);
+				$(el).data('previousRoutes','');
+				$(el).data('targetOutput','#output');
+			};
+
 			route.previousRoutes = function(e){
 				console.log(e)	
 			};
-			route.targetOutput = function(e){
-				console.log(e)	
+			route.targetOutput = function(el){
+				//console.log(el);
+				//console.log($(el).data('targetOutput'));
+				$($(el).data('targetOutput')).html($(el).data('route'));
+
 			};
-		
 		
 			var outputTarget = "#output";
 			$(document).ready( function(){
@@ -19,47 +33,28 @@
 				/* override form submits */
 					var myPostActions = $('form').each(function(i,el){
 						var myPostAction = $(el).attr('action');
-						/* replace form action with location.hash reference */
-						/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
 						myPostAction = '#' + myPostAction;
-						/* you could also do REGEX replacements here */
-						//myPostAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
+						route.register(el,myPostAction);
+						
 						$(el).attr('action',myPostAction);
-						$(el).data('route',myPostAction);
-						$(el).data('previousRoutes','');
-						$(el).data('targetOutput',outputTarget);
-
 						//override form action with onsubmit handler
-							$(el).submit(function(e){
-								//output the route name for now				 
-								$($(el).data('targetOutput')).html($(el).data('route'));
-								return false;
-							});
+						$(el).submit(function(e){
+							route.targetOutput($(this));
+							return false;
+						});
 				
 				});
 			/* GET */
 				/* override links */
 				var myGetActions = $('a').each(function(i,el){
 					var myGetAction = $(el).attr('href');
-						/* replace <a href with location.hash reference */
-						/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
 						myGetAction = '#' + myGetAction;
-						/* you could also do REGEX replacements here */
-						//myGetAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
-						/* you could add a conditional here to prevent href replacement */
-						//$(el).attr('href',myGetAction);
-						$(el).data('route',myGetAction);
-						$(el).data('previousRoutes','');
-						$(el).data('targetOutput',outputTarget);
-
+						route.register(el,myGetAction);
 						//override "href" with onclick handler
 						$(el).click(function(e){
-							//output the route name for now				 
-							$($(el).data('targetOutput')).html($(el).data('route'));
+							route.targetOutput($(this));
 							return false;
 						});
-
-						//console.log($(e).data('out'));
 				});
 		});
 		</script>	
