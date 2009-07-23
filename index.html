@@ -5,7 +5,10 @@
 		
 		
 			var route = {};
-			route.out = function(e){
+			route.previousRoutes = function(e){
+				console.log(e)	
+			};
+			route.targetOutput = function(e){
 				console.log(e)	
 			};
 		
@@ -23,26 +26,33 @@
 						//myPostAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
 						$(e).attr('action',myPostAction);
 						$(e).data('route',myPostAction);
-						$(e).data('in','');
-						$(e).data('out',outputTarget);
+						$(e).data('previousRoutes','');
+						$(e).data('targetOutput',outputTarget);
 				//		console.log($(e).data('out'));
 				});
 			/* GET */
 				/* override links */
-				var myGetActions = $('a').each(function(i,e){
-					var myGetAction = $(e).attr('href');
+				var myGetActions = $('a').each(function(i,el){
+					var myGetAction = $(el).attr('href');
 						/* replace <a href with location.hash reference */
 						/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
 						myGetAction = '#' + myGetAction;
 						/* you could also do REGEX replacements here */
 						//myGetAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
 						/* you could add a conditional here to prevent href replacement */
-						$(e).attr('href',myGetAction);
-						$(e).data('route',myGetAction);
-						$(e).data('in','');
-						$(e).data('out',outputTarget);
+						//$(el).attr('href',myGetAction);
+						$(el).data('route',myGetAction);
+						$(el).data('previousRoutes','');
+						$(el).data('targetOutput',outputTarget);
 
-				//		console.log($(e).data('out'));
+						//override "href" with onclick handler
+						$(el).click(function(e){
+							//output the route name for now				 
+							$($(el).data('targetOutput')).html($(el).data('route'));
+							return false;
+						});
+
+						//console.log($(e).data('out'));
 				});
 		});
 		</script>	
