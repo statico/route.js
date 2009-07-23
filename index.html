@@ -17,18 +17,25 @@
 			$(document).ready( function(){
 			/* POST */
 				/* override form submits */
-					var myPostActions = $('form').each(function(i,e){
-						var myPostAction = $(e).attr('action');
+					var myPostActions = $('form').each(function(i,el){
+						var myPostAction = $(el).attr('action');
 						/* replace form action with location.hash reference */
 						/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
 						myPostAction = '#' + myPostAction;
 						/* you could also do REGEX replacements here */
 						//myPostAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
-						$(e).attr('action',myPostAction);
-						$(e).data('route',myPostAction);
-						$(e).data('previousRoutes','');
-						$(e).data('targetOutput',outputTarget);
-				//		console.log($(e).data('out'));
+						$(el).attr('action',myPostAction);
+						$(el).data('route',myPostAction);
+						$(el).data('previousRoutes','');
+						$(el).data('targetOutput',outputTarget);
+
+						//override form action with onsubmit handler
+							$(el).submit(function(e){
+								//output the route name for now				 
+								$($(el).data('targetOutput')).html($(el).data('route'));
+								return false;
+							});
+				
 				});
 			/* GET */
 				/* override links */
