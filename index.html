@@ -5,32 +5,6 @@
 			var route = {};
 			
 			route.override = function(el){
-				
-			}
-			
-			route.register = function(el,route){
-				/* replace form action with location.hash reference */
-				/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
-				
-				/* you could also do REGEX replacements here */
-				//myPostAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
-				$(el).data('route',route);
-				$(el).data('previousRoutes','');
-				$(el).data('targetOutput','#output');
-			};
-
-			route.previous = function(e){
-				console.log(e)	
-			};
-			route.next = function(el){
-				//console.log(el);
-				//console.log($(el).data('targetOutput'));
-				$($(el).data('targetOutput')).html($(el).data('route'));
-
-			};
-		
-			var outputTarget = "#output";
-			$(document).ready( function(){
 			/* POST */
 				/* override form submits */
 					var myPostActions = $('form').each(function(i,el){
@@ -58,7 +32,34 @@
 							return false;
 						});
 				});
-		});
+				
+			}
+			
+			route.register = function(el,route){
+				/* replace form action with location.hash reference */
+				/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
+				
+				/* you could also do REGEX replacements here */
+				//myPostAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
+				$(el).data('route',route);
+				$(el).data('previousRoutes','');
+				$(el).data('targetOutput','#output');
+			};
+
+			route.previous = function(e){
+				console.log(e)	
+			};
+			route.next = function(el){
+				//console.log(el);
+				//console.log($(el).data('targetOutput'));
+				$($(el).data('targetOutput')).html($(el).data('route'));
+
+			};
+		
+			var outputTarget = "#output";
+			$(document).ready( function(){
+				route.override();
+			});
 		</script>	
 		<style>
 			#output{ width:600px; height:800px; border:solid; border-color:#000;}
