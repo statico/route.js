@@ -2,11 +2,13 @@
 	<head>
 		<script type="text/javascript" src="../jquery.min.js"></script>
 		<script>
-		
-		
 			var route = {};
+			
+			route.override = function(el){
+				
+			}
+			
 			route.register = function(el,route){
-
 				/* replace form action with location.hash reference */
 				/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
 				
@@ -17,10 +19,10 @@
 				$(el).data('targetOutput','#output');
 			};
 
-			route.previousRoutes = function(e){
+			route.previous = function(e){
 				console.log(e)	
 			};
-			route.targetOutput = function(el){
+			route.next = function(el){
 				//console.log(el);
 				//console.log($(el).data('targetOutput'));
 				$($(el).data('targetOutput')).html($(el).data('route'));
@@ -39,7 +41,7 @@
 						$(el).attr('action',myPostAction);
 						//override form action with onsubmit handler
 						$(el).submit(function(e){
-							route.targetOutput($(this));
+							route.next($(this));
 							return false;
 						});
 				
@@ -52,7 +54,7 @@
 						route.register(el,myGetAction);
 						//override "href" with onclick handler
 						$(el).click(function(e){
-							route.targetOutput($(this));
+							route.next($(this));
 							return false;
 						});
 				});
