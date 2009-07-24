@@ -29,67 +29,61 @@ route.override = function(el){
 }
 
 route.next = function(el){
-	/* trigger before aspect */
-
+	/* TODO: add aspects (before aspect) */
 	/* copy route data from jQuery once, as to limit $ calls */
 	var myRoute = $(el).data('route');
 
 	/* determine type of route we are working with */
-	switch(myRoute.returnType)
+	switch(myRoute.type)
 	{
 		case 'LOCAL':
 		// we are going to retrieve local data
 		break;
 		case 'REMOTE': 
 		// we are going to get remote data
+			switch(myRoute.format)
+			{
+				case 'JSON': 
+					/* request JSON from REMOTE server */
+					/* TODO: hook jquery.template.js here */
+					$(myRoute.targetOutput).html('JSON gets sent here and then microtemplated with jquery.template.js');
+				break;
+				case 'HTML': 
+					/* request HTML fragment from REMOTE server */
+
+					/*$.get('http://www.google.com',function(data){
+						$(myRoute.targetOutput).html(data);										 
+					});*/
+					$(myRoute.targetOutput).html();				  
+				break;
+				default:
+				break;
+			}
 		break;
 		default:
 		break;
 	}
-
-	switch(myRoute.format)
-	{
-		case 'JSON': 
-			/* TODO: hook jquery.template.js here */
-			/* render html into targetOutput dom */
-			$(myRoute.targetOutput).html('JSON gets sent here and then microtemplated with jquery.template.js');
-		break;
-		case 'HTML': 
-			/* render html into targetOutput dom */
-			$(myRoute.targetOutput).html('Here we can remote to ' + myRoute.path +' and get back a rendered html fragment or JSON that can be microtemplated with jquery.template.js');
-		break;
-		default:
-		break;
-	}
-
-
-
-
+	
 	/* update browser's url bar */
 	location.hash = $(el).data('route').path;
 
-	/* trigger after aspect */
-
+	/* TODO: add aspects (after aspect) */
 };
 
 route.previous = function(e){
 	console.log(e)	
 };
 
-route.register = function(el,path,format,returnType){
-	/* replace form action with location.hash reference */
+route.register = function(el,path,format,type){
 	/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
-	
 	/* you could also do REGEX replacements here */
-	//myPostAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
+	//path = path.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
 	$(el).data('route', { 
 		path: path, 
 		format: format, 
-		returnType: returnType,
+		type: type,
 		targetOutput: '#output', 
 		previousRoutes:''
 	});
-
 };
-		
 var outputTarget = "#output";
