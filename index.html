@@ -5,11 +5,14 @@
 		<script>
 			$(document).ready( function(){
 				route.override();
+				route.register('#area1',"mouseover",'alert(\'hi\')');
+				route.register('#area2',"mouseover",'alert(\'hello\')');
+				route.register('#area3',"mouseover",'alert(\'goodbye\')');
 			});
 		</script>	
 		<style>
 			#output{ width:600px; height:800px; border:solid; border-color:#000;}
-			div{overflow:auto;}
+			div{overflow:auto; cursor:pointer; border:thin; border-color:#000; border-style:solid; width:300; height:200; float:left;}
 			.layout{}
 			.output{height:200px;}
 		</style>
@@ -30,6 +33,12 @@
         <a href="/blog/I-am-blogging">Blog Post</a>
         <a href="/admin">Admin Entry</a>
         <a href="/admin/manage/blog/I-am-blogging">Manage Blog Post</a>
+        
+        <div id="area1">Click Me</div>
+        <div id="area2">Click Me</div>
+        <div id="area3">Click Me</div>
+        
+        
         
         <div id="output">
         

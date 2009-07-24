@@ -75,7 +75,7 @@ route.previous = function(e){
 };
 
 route.register = function(el,f,e){
-	$(el).bind(f,e);
+	$(el).bind(f,function(){eval(e);});
 };
 
 route.connect = function(el,path,format,type){
