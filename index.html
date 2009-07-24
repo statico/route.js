@@ -5,11 +5,22 @@
 		<script>
 			$(document).ready( function(){
 				route.override();
-				route.register('#area1',"mouseover",'alert(\'hi\')');
-				route.register('#area2',"mouseover",'alert(\'hello\')');
-				route.register('#area3',"mouseover",'alert(\'goodbye\')');
+				route.register('#area1',"hover",'fadeColorIn(this)','fadeColorOut(this)');
+				route.register('#area2',"hover",'fadeColorIn(this)','fadeColorOut(this)');
+				route.register('#area3',"hover",'fadeColorIn(this)','fadeColorOut(this)');
+
+				route.register('#area1',"click",'alert(\'hello\')');
+				route.register('#area2',"click",'alert(\'hi\')');
+				route.register('#area3',"click",'alert(\'goodbye\')');
 			});
-		</script>	
+			var fadeColorOut = function(el){
+				$(el).css('background-color','#FFFFFF');
+			};
+
+			var fadeColorIn = function(el){
+				$(el).css('background-color','#000000');
+			};
+</script>	
 		<style>
 			#output{ width:600px; height:800px; border:solid; border-color:#000;}
 			div{overflow:auto; cursor:pointer; border:thin; border-color:#000; border-style:solid; width:300; height:200; float:left;}

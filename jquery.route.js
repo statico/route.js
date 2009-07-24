@@ -74,8 +74,16 @@ route.previous = function(e){
 	console.log(e)	
 };
 
-route.register = function(el,f,e){
-	$(el).bind(f,function(){eval(e);});
+route.register = function(el,e,f,f2){
+	switch(e)
+	{
+		case 'hover':
+			$(el).hover(function(){eval(f)},function(){eval(f2)});		
+		break;
+		default:
+			$(el).bind(e,function(){eval(f);});
+		break;
+	}
 };
 
 route.connect = function(el,path,format,type){
