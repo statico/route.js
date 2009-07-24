@@ -19,7 +19,7 @@ route.override = function(el){
 			var myGetActions = $('a').each(function(i,el){
 				var myGetAction = $(el).attr('href');
 				myGetAction = '#' + myGetAction;
-				route.register(el,myGetAction,'HTML');
+				route.register(el,myGetAction,'HTML','REMOTE');
 				//override "href" with onclick handler
 				$(el).click(function(e){
 					route.next($(this));
@@ -35,7 +35,7 @@ route.next = function(el){
 	var myRoute = $(el).data('route');
 
 	/* determine type of route we are working with */
-	switch(myRoute.type)
+	switch(myRoute.returnType)
 	{
 		case 'LOCAL':
 		// we are going to retrieve local data
@@ -47,7 +47,7 @@ route.next = function(el){
 		break;
 	}
 
-	switch(myRoute.returnType)
+	switch(myRoute.format)
 	{
 		case 'JSON': 
 			/* TODO: hook jquery.template.js here */
@@ -76,7 +76,7 @@ route.previous = function(e){
 	console.log(e)	
 };
 
-route.register = function(el,path,type,returnType){
+route.register = function(el,path,format,returnType){
 	/* replace form action with location.hash reference */
 	/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
 	
@@ -84,7 +84,7 @@ route.register = function(el,path,type,returnType){
 	//myPostAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
 	$(el).data('route', { 
 		path: path, 
-		type: type, 
+		format: format, 
 		returnType: returnType,
 		targetOutput: '#output', 
 		previousRoutes:''
