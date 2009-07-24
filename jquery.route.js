@@ -6,7 +6,7 @@ route.override = function(el){
 			var myPostActions = $('form').each(function(i,el){
 				var myPostAction = $(el).attr('action');
 				myPostAction = '#' + myPostAction;
-				route.register(el,myPostAction,'HTML','REMOTE');
+				route.connect(el,myPostAction,'HTML','REMOTE');
 				$(el).attr('action',myPostAction);
 				//override form action with onsubmit handler
 				$(el).submit(function(e){
@@ -19,7 +19,7 @@ route.override = function(el){
 			var myGetActions = $('a').each(function(i,el){
 				var myGetAction = $(el).attr('href');
 				myGetAction = '#' + myGetAction;
-				route.register(el,myGetAction,'HTML','REMOTE');
+				route.connect(el,myGetAction,'HTML','REMOTE');
 				//override "href" with onclick handler
 				$(el).click(function(e){
 					route.next($(this));
@@ -74,7 +74,11 @@ route.previous = function(e){
 	console.log(e)	
 };
 
-route.register = function(el,path,format,type){
+route.register = function(el,f,e){
+	$(el).bind(f,e);
+};
+
+route.connect = function(el,path,format,type){
 	/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
 	/* you could also do REGEX replacements here */
 	//path = path.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
