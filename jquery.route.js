@@ -1,11 +1,12 @@
 var route = {};
+
 route.override = function(el){
 	/* POST */
 		/* override form submits */
 			var myPostActions = $('form').each(function(i,el){
 				var myPostAction = $(el).attr('action');
 				myPostAction = '#' + myPostAction;
-				route.register(el,myPostAction);
+				route.register(el,myPostAction,'HTML');
 				$(el).attr('action',myPostAction);
 				//override form action with onsubmit handler
 				$(el).submit(function(e){
@@ -16,35 +17,58 @@ route.override = function(el){
 	/* GET */
 		/* override links */
 			var myGetActions = $('a').each(function(i,el){
-			var myGetAction = $(el).attr('href');
-			myGetAction = '#' + myGetAction;
-			route.register(el,myGetAction);
-			//override "href" with onclick handler
-			$(el).click(function(e){
-			route.next($(this));
-			return false;
-		});
-	});
+				var myGetAction = $(el).attr('href');
+				myGetAction = '#' + myGetAction;
+				route.register(el,myGetAction,'HTML');
+				//override "href" with onclick handler
+				$(el).click(function(e){
+					route.next($(this));
+					return false;
+				});
+			});
 }
 
 route.next = function(el){
-	$($(el).data('targetOutput')).html($(el).data('route'));
-	location.hash = $(el).data('route');
+	/* trigger before aspect */
+
+	/* copy route data from jQuery once, as to limit $ calls */
+	var myRoute = $(el).data('route');
+
+	/* determine type of route we are working with */
+	switch(myRoute.type)
+	{
+		case 'JSON': 
+			/* TODO: hook jquery.template.js here */
+			/* render html into targetOutput dom */
+			$(myRoute.targetOutput).html('JSON gets sent here and then microtemplated with jquery.template.js');
+		break;
+		case 'HTML': 
+			/* render html into targetOutput dom */
+			$(myRoute.targetOutput).html('Here we can remote to ' + myRoute.path +' and get back a rendered html fragment or JSON that can be microtemplated with jquery.template.js');
+		break;
+		default:
+		break;
+	}
+
+	/* update browser's url bar */
+	location.hash = $(el).data('route').path;
+
+	/* trigger after aspect */
+
 };
 
 route.previous = function(e){
 	console.log(e)	
 };
 
-route.register = function(el,route){
+route.register = function(el,path,type){
 	/* replace form action with location.hash reference */
 	/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
 	
 	/* you could also do REGEX replacements here */
 	//myPostAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
-	$(el).data('route',route);
+	$(el).data('route', { path: path, type: type, targetOutput: '#output' });
 	$(el).data('previousRoutes','');
-	$(el).data('targetOutput','#output');
 };
 		
 var outputTarget = "#output";
