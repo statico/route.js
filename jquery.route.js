@@ -6,7 +6,7 @@ route.override = function(el){
 			var myPostActions = $('form').each(function(i,el){
 				var myPostAction = $(el).attr('action');
 				myPostAction = '#' + myPostAction;
-				route.register(el,myPostAction,'HTML');
+				route.register(el,myPostAction,'HTML','REMOTE');
 				$(el).attr('action',myPostAction);
 				//override form action with onsubmit handler
 				$(el).submit(function(e){
@@ -37,6 +37,18 @@ route.next = function(el){
 	/* determine type of route we are working with */
 	switch(myRoute.type)
 	{
+		case 'LOCAL':
+		// we are going to retrieve local data
+		break;
+		case 'REMOTE': 
+		// we are going to get remote data
+		break;
+		default:
+		break;
+	}
+
+	switch(myRoute.returnType)
+	{
 		case 'JSON': 
 			/* TODO: hook jquery.template.js here */
 			/* render html into targetOutput dom */
@@ -50,6 +62,9 @@ route.next = function(el){
 		break;
 	}
 
+
+
+
 	/* update browser's url bar */
 	location.hash = $(el).data('route').path;
 
@@ -61,14 +76,20 @@ route.previous = function(e){
 	console.log(e)	
 };
 
-route.register = function(el,path,type){
+route.register = function(el,path,type,returnType){
 	/* replace form action with location.hash reference */
 	/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
 	
 	/* you could also do REGEX replacements here */
 	//myPostAction = myPost.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
-	$(el).data('route', { path: path, type: type, targetOutput: '#output' });
-	$(el).data('previousRoutes','');
+	$(el).data('route', { 
+		path: path, 
+		type: type, 
+		returnType: returnType,
+		targetOutput: '#output', 
+		previousRoutes:''
+	});
+
 };
 		
 var outputTarget = "#output";
