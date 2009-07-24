@@ -78,10 +78,10 @@ route.register = function(el,e,f,f2){
 	switch(e)
 	{
 		case 'hover':
-			$(el).hover(function(){eval(f)},function(){eval(f2)});		
+			$(el).hover(f,f2);		
 		break;
 		default:
-			$(el).bind(e,function(){eval(f);});
+			$(el).bind(e,f);
 		break;
 	}
 };
