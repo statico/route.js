@@ -1,30 +1,35 @@
 <html>
 	<head>
 		<script type="text/javascript" src="../jquery.min.js"></script>
+		<script type="text/javascript" src="../jquery.dataSelector.js/jquery.dataSelector.js"></script>
+
 		<script type="text/javascript" src="jquery.route.js"></script>
 		<script type="text/javascript" src="../jquery.template.js/jquery.template.js"></script>
-
+		
 		<script>
 			$(document).ready( function(){
+				//route.override();
+				
+				/* move event binds to connect() call */
+				
+//				var events = new Array();
+		//		var myEvent = {name : "click", callback : function(){route.next(this);}}
+	//			events.push(myEvent);
+				/* 
+					connect() will connect any DOM element to a "route"
+					"route" is a unique client-side path that represents 
+					the applications currentstate
+				*/
 				route.override();
+				route.connect('#area1','#/blog/I-am-blogging','click');
+				route.connect('#area2','#/admin','click');
+				route.connect('#area3','#/admin/manage/blog/I-am-blogging','click');
 				
-				/* connect routes to elements */
-				route.connect('#area1','#/blog/another-post','HTML','REMOTE');
-				route.connect('#area2','#/blog/post-post','HTML','REMOTE');
-				route.connect('#area3','#/blog/i-post-blog','HTML','REMOTE');
-				
-				/* register events on elements */
-				route.register('#area1',"hover",function(){fadeColorIn(this)},function(){fadeColorOut(this)});
-				route.register('#area2',"hover",function(){fadeColorIn(this)},function(){fadeColorOut(this)});
-				route.register('#area3',"hover",function(){fadeColorIn(this)},function(){fadeColorOut(this)});
-
-				route.register('#area1',"click",function(){alert('hello');route.next(this);});
-				route.register('#area2',"click",function(){alert('hi!');route.next(this);});
-				route.register('#area3',"click",function(){alert('good bye!');route.next(this);});
-	
-	
-	//			$('body').append(($().template($("#loginFormTemplate").html(),{asd:"Asd"})));
-	
+								
+				//"hover",function(){fadeColorIn(this)},function(){fadeColorOut(this)}
+				route.register('#output','#/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/blog/I-am-blogging');
+				route.register('#output','#/admin','REMOTE','HTML','http://www.webservice.com/admin.html');
+				route.register('#output','#/admin/manage/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/admin/manage/blog/I-am-blogging.html');
 	
 			});
 			var fadeColorOut = function(el){
