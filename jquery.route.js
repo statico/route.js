@@ -14,9 +14,8 @@ route.startState = function(el,path,eventTrigger){
 	*/
 	switch(eventTrigger)
 		{
-			case 'hover':
-				$(el).hover(events[theEvent][0],events[theEvent][1]);		
-			break;
+			/* we could add custom eventTriggers here */
+			/* bind() will work well for events such as "click" */
 			default:
 				$(el).bind(eventTrigger,function(){
 					route.enterState(path);
