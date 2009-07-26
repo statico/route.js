@@ -1,9 +1,5 @@
-
 var route = {};
-
-
-
-route.connect = function(el,path,eventTrigger){
+route.startState = function(el,path,eventTrigger){
 	/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
 	/* you could also do REGEX replacements here */
 	//path = path.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
@@ -12,41 +8,29 @@ route.connect = function(el,path,eventTrigger){
 		eventTrigger: eventTrigger
 	});
 
+	/* invert control of event to accepting state 
+	   http://en.wikipedia.org/wiki/Hollywood_Principle
+	*/
 	switch(eventTrigger)
 		{
 			case 'hover':
 				$(el).hover(events[theEvent][0],events[theEvent][1]);		
 			break;
 			default:
-				//console.log(el);
-				
-				/* inversion of control magic lookup
-				   http://en.wikipedia.org/wiki/Hollywood_Principle
-				*/
-				
-				/* find all elements that match this path */
-				
 				$(el).bind(eventTrigger,function(){
-					//alert('h');
 					route.enterState(path);
-					//route.next(this);
 				});
 			break;
 		}
 };
 
-route.register = function(el,path,type,returnFormat,uri){
-		console.log(path);
-		
-
+route.acceptState = function(el,path,type,returnFormat,uri){
 		var myRoute = {
 			type: type,
 			returnFormat: returnFormat,
 			uri: uri
 		};
-		//console.log($(el).data(path));
 		$(el).data(path,myRoute);
-		delete myRoute;
 		return;
 };
 
@@ -125,9 +109,9 @@ route.override = function(el){
 				var myPostAction = $(el).attr('action');
 				myPostAction = '#' + myPostAction;
 				
-				//route.connect('#area1','#/blog/another-post','click');
+				//route.startState('#area1','#/blog/another-post','click');
 
-				route.connect(el,myPostAction,'click');
+				route.startState(el,myPostAction,'click');
 				
 				$(el).attr('action',myPostAction);
 				//override form action with onsubmit handler
@@ -141,7 +125,7 @@ route.override = function(el){
 			var myGetActions = $('a').each(function(i,el){
 				var myGetAction = $(el).attr('href');
 				myGetAction = '#' + myGetAction;
-				route.connect(el,myGetAction,'click');
+				route.startState(el,myGetAction,'click');
 				//override "href" with onclick handler
 				$(el).click(function(e){
 					route.next($(this));
@@ -150,18 +134,8 @@ route.override = function(el){
 			});
 }
 
-route.next = function(el){
-	/* TODO: add aspects (before aspect) */
-	/* copy route data from jQuery once, as to limit $ calls */
-	var myRoute = $(el).data('route');
-	console.log(myRoute);
-
-	/* TODO: add aspects (after aspect) */
-};
-
-route.previous = function(e){
-	console.log(e)	
-};
 
 
 var outputTarget = "#output";
+
+

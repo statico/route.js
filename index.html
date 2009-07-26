@@ -10,26 +10,29 @@
 			$(document).ready( function(){
 				//route.override();
 				
-				/* move event binds to connect() call */
+				/* move event binds to startState() call */
 				
 //				var events = new Array();
 		//		var myEvent = {name : "click", callback : function(){route.next(this);}}
 	//			events.push(myEvent);
 				/* 
-					connect() will connect any DOM element to a "route"
+					startState() will startState any DOM element to a "route"
 					"route" is a unique client-side path that represents 
 					the applications currentstate
 				*/
 				route.override();
-				route.connect('#area1','#/blog/I-am-blogging','click');
-				route.connect('#area2','#/admin','click');
-				route.connect('#area3','#/admin/manage/blog/I-am-blogging','click');
+				
+				
+				/* TODO: merge acceptState() into startState() */
+				route.startState('#area1','#/blog/I-am-blogging','click');
+				route.startState('#area2','#/admin','click');
+				route.startState('#area3','#/admin/manage/blog/I-am-blogging','click');
 				
 								
 				//"hover",function(){fadeColorIn(this)},function(){fadeColorOut(this)}
-				route.register('#output','#/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/blog/I-am-blogging');
-				route.register('#output','#/admin','REMOTE','HTML','http://www.webservice.com/admin.html');
-				route.register('#output','#/admin/manage/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/admin/manage/blog/I-am-blogging.html');
+				route.acceptState('#output','#/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/blog/I-am-blogging');
+				route.acceptState('#output','#/admin','REMOTE','HTML','http://www.webservice.com/admin.html');
+				route.acceptState('#output','#/admin/manage/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/admin/manage/blog/I-am-blogging.html');
 	
 			});
 			var fadeColorOut = function(el){
