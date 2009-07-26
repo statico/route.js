@@ -27,13 +27,31 @@
 				route.startState('#area1','#/blog/I-am-blogging','click');
 				route.startState('#area2','#/admin','click');
 				route.startState('#area3','#/admin/manage/blog/I-am-blogging','click');
-				
+
+				route.startState('#output1','#/blog/I-am-blogging','click');
+				route.startState('#output2','#/admin','click');
+				route.startState('#output3','#/admin/manage/blog/I-am-blogging','click');
+
+
+
 								
 				//"hover",function(){fadeColorIn(this)},function(){fadeColorOut(this)}
-				route.acceptState('#output','#/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/blog/I-am-blogging');
-				route.acceptState('#output','#/admin','REMOTE','HTML','http://www.webservice.com/admin.html');
-				route.acceptState('#output','#/admin/manage/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/admin/manage/blog/I-am-blogging.html');
-	
+				route.acceptState('#output1','#/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/blog/I-am-blogging');
+				route.acceptState('#output1','#/admin','REMOTE','HTML','http://www.webservice.com/admin.html');
+				route.acceptState('#output1','#/admin/manage/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/admin/manage/blog/I-am-blogging.html');
+
+
+				route.acceptState('#output2','#/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/blog/I-am-blogging');
+				route.acceptState('#output2','#/admin','REMOTE','HTML','http://www.webservice.com/admin.html');
+				route.acceptState('#output2','#/admin/manage/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/admin/manage/blog/I-am-blogging.html');
+
+
+				route.acceptState('#output3','#/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/blog/I-am-blogging');
+				route.acceptState('#output3','#/admin','REMOTE','HTML','http://www.webservice.com/admin.html');
+				route.acceptState('#output3','#/admin/manage/blog/I-am-blogging','REMOTE','HTML','http://www.webservice.com/admin/manage/blog/I-am-blogging.html');
+
+
+
 			});
 			var fadeColorOut = function(el){
 				$(el).css('background-color','#FFFFFF');
@@ -47,14 +65,14 @@
 			#output{ width:600px; height:800px; border:solid; border-color:#000;}
 			div{overflow:auto; cursor:pointer; border:thin; border-color:#000; border-style:solid; width:70; height:70; text-align:center; float:left;}
 			.layout{}
-			.output{height:200px;}
+			.output{height:200px; width:140px;}
 		</style>
 	</head>
 	<body>
     	<noscript>This page is an example of a 100% client side templating engine. The body will remain empty without JavaScript.</noscript>
 
         
-        <form id="theForm" action="index.html" method="post">
+        <form id="theForm" action="/processForms/theForm" method="post">
         	<input name="submit" type="submit" value="Test Submit Form"/>
         </form>
 
@@ -68,7 +86,13 @@
         
         
         
-        <div id="output">
+        <div id="output1" class="output">
+        
+        </div>
+              <div id="output2" class="output">
+        
+        </div>
+              <div id="output3" class="output">
         
         </div>
         

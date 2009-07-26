@@ -10,6 +10,7 @@ route.startState = function(el,path,eventTrigger){
 
 	/* invert control of event to accepting state 
 	   http://en.wikipedia.org/wiki/Hollywood_Principle
+	   "Don't call us, we'll call you"
 	*/
 	switch(eventTrigger)
 		{
@@ -36,25 +37,9 @@ route.acceptState = function(el,path,type,returnFormat,uri){
 
 
 route.enterState = function(startState){
-	//alert('p');
-	//console.log(startState);
-	
-	//var acceptingStates = $(startState).attr('id');
-	//console.log(startState);
-	//return;
-	/* find accepting states */
-	console.log(startState);
-
-	/* update browser's url bar */
-	location.hash = startState;
-
 	var myRoutes = $(':data('+startState+')');
 	$.each(myRoutes,function(i,e){
 		var myRoute = $(e).data(startState);
-		
-		console.log(e,$(e).data(startState).uri);
-		//console.log(i,e);
-			//console.log(myRoute,$(e).attr('id'));
 			/* determine type of route we are working with */
 			switch(myRoute.type)
 			{
@@ -96,11 +81,11 @@ route.enterState = function(startState){
 				break;
 			}
 	});
-	delete myRoutes;
+
+	/* update browser's url bar */
+	location.hash = startState;
 	return;
 }; 
-
-
 
 route.override = function(el){
 	/* POST */
@@ -108,15 +93,11 @@ route.override = function(el){
 			var myPostActions = $('form').each(function(i,el){
 				var myPostAction = $(el).attr('action');
 				myPostAction = '#' + myPostAction;
-				
-				//route.startState('#area1','#/blog/another-post','click');
-
 				route.startState(el,myPostAction,'click');
-				
 				$(el).attr('action',myPostAction);
 				//override form action with onsubmit handler
 				$(el).submit(function(e){
-					route.next($(this));
+//					route.next($(this));
 					return false;
 				});
 			});
@@ -128,14 +109,8 @@ route.override = function(el){
 				route.startState(el,myGetAction,'click');
 				//override "href" with onclick handler
 				$(el).click(function(e){
-					route.next($(this));
+	//				route.next($(this));
 					return false;
 				});
 			});
 }
-
-
-
-var outputTarget = "#output";
-
-
