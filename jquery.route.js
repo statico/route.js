@@ -37,6 +37,8 @@ route.connect = function(el,path,eventTrigger){
 
 route.register = function(el,path,type,returnFormat,uri){
 		console.log(path);
+		
+
 		var myRoute = {
 			type: type,
 			returnFormat: returnFormat,
@@ -58,6 +60,10 @@ route.enterState = function(startState){
 	//return;
 	/* find accepting states */
 	console.log(startState);
+
+	/* update browser's url bar */
+	location.hash = startState;
+
 	var myRoutes = $(':data('+startState+')');
 	$.each(myRoutes,function(i,e){
 		var myRoute = $(e).data(startState);
@@ -149,9 +155,6 @@ route.next = function(el){
 	/* copy route data from jQuery once, as to limit $ calls */
 	var myRoute = $(el).data('route');
 	console.log(myRoute);
-	
-	/* update browser's url bar */
-	location.hash = $(el).data('route').path;
 
 	/* TODO: add aspects (after aspect) */
 };
