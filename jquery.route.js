@@ -1,17 +1,26 @@
+/* 
+ * this is a javascript implementation of Inversion of Control
+ * http://en.wikipedia.org/wiki/Hollywood_Principle
+ * "Don't call us, we'll call you"
+
+ */
 var route = {};
+
+/* this method will register a location.hash path with an element and an event
+ * whenever that event is triggered on that element, all accepting states
+ * that are also bound to the location.hash path will fire */
 route.startState = function(el,path,eventTrigger){
 	/* TODO: strip out hostnames such as ("http://","www.","domainname",".com",".net","/") */
 	/* you could also do REGEX replacements here */
 	//path = path.replace( new RegExp( 'searchStringWithRegex', 'gi' ), 'replacementText');
+	
+	/* register path and eventTrigger for element */
 	$(el).data('route', { 
 		path: path,
 		eventTrigger: eventTrigger
 	});
 
-	/* invert control of event to accepting state 
-	   http://en.wikipedia.org/wiki/Hollywood_Principle
-	   "Don't call us, we'll call you"
-	*/
+	/* here is where we invert control of the method */
 	switch(eventTrigger)
 		{
 			/* we could add custom eventTriggers here */
@@ -24,6 +33,9 @@ route.startState = function(el,path,eventTrigger){
 		}
 };
 
+/* this method will register a route to be executed after a 
+ * start state has been initated. 
+ */
 route.acceptState = function(el,path,type,returnFormat,uri){
 		var myRoute = {
 			type: type,
@@ -31,11 +43,13 @@ route.acceptState = function(el,path,type,returnFormat,uri){
 			uri: uri
 		};
 		$(el).data(path,myRoute);
-		return;
+		return false;
 };
 
-
+/* this method will execute when a state is triggered */
 route.enterState = function(startState){
+	/* use a custom data() selector to search for routes/states
+	   http://github.com/Marak/jquery.dataSelector.js/ 	*/
 	var myRoutes = $(':data('+startState+')');
 	$.each(myRoutes,function(i,e){
 		var myRoute = $(e).data(startState);
@@ -56,12 +70,10 @@ route.enterState = function(startState){
 						break;
 						case 'HTML': 
 							/* request HTML fragment from REMOTE server */
-							//console.log;
-							$(e).html(('Do Get Request to ' + myRoute.uri) + ' and fill up with the response HTML fragment.')
-							/*$.get('http://www.google.com',function(data){
-								$(myRoute.targetOutput).html(data);										 
-							});*/
-							//$(myRoute.targetOutput).html();				  
+							//$(e).html(('Do Get Request to ' + myRoute.uri) + ' and fill up with the response HTML fragment.')
+							$.get(myRoute.uri,function(data){
+								$(e).html(data);										 
+							});
 						break;
 						case 'XML': 
 						break;
@@ -83,10 +95,10 @@ route.enterState = function(startState){
 
 	/* update browser's url bar */
 	location.hash = startState;
-	return;
+	return false;
 }; 
 
-route.override = function(el){
+route.override = function(){
 	/* POST */
 		/* override form submits */
 			var myPostActions = $('form').each(function(i,el){
@@ -96,7 +108,6 @@ route.override = function(el){
 				$(el).attr('action',myPostAction);
 				//override form action with onsubmit handler
 				$(el).submit(function(e){
-//					route.next($(this));
 					return false;
 				});
 			});
@@ -108,7 +119,6 @@ route.override = function(el){
 				route.startState(el,myGetAction,'click');
 				//override "href" with onclick handler
 				$(el).click(function(e){
-	//				route.next($(this));
 					return false;
 				});
 			});
