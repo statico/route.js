@@ -5,7 +5,7 @@
 
  */
 var route = {};
-
+var routes = new Array();
 /* this method will register a location.hash path with an element and an event
  * whenever that event is triggered on that element, all accepting states
  * that are also bound to the location.hash path will fire */
@@ -42,15 +42,23 @@ route.acceptState = function(el,path,type,returnFormat,uri){
 			returnFormat: returnFormat,
 			uri: uri
 		};
+		var r = {};
+		r[path] = myRoute;
+		routes.push(r);
+		$('#newStates').html($.toJSON(routes));
 		$(el).data(path,myRoute);
 		return false;
 };
 
 /* this method will execute when a state is triggered */
 route.enterState = function(startState){
+
+//	console.log(startState);
 	/* use a custom data() selector to search for routes/states
 	   http://github.com/Marak/jquery.dataSelector.js/ 	*/
 	var myRoutes = $(':data('+startState+')');
+	
+	$('#currentState').html(startState);
 	$.each(myRoutes,function(i,e){
 		var myRoute = $(e).data(startState);
 			/* determine type of route we are working with */

@@ -1,6 +1,8 @@
 <html>
 	<head>
 		<script type="text/javascript" src="../jquery.min.js"></script>
+		<script type="text/javascript" src="../jquery.json-1.3.min.js"></script>		
+		
 		<script type="text/javascript" src="../jquery.dataSelector.js/jquery.dataSelector.js"></script>
 		<script type="text/javascript" src="jquery.route.js"></script>
 		<script type="text/javascript" src="../jquery.template.js/jquery.template.js"></script>
@@ -45,7 +47,10 @@
 			.button{overflow:auto; cursor:pointer; border:thin; border-color:#000; border-style:solid; width:70; height:70; text-align:center; float:left;}
 			.layout{}
 			.output{height:200px; width:140px; float:left;}
-			.header{width:440px;}			
+			.header{width:440px; float:left; height:1000px;}
+			
+			.stateDiagram{ height:500px; width:550px; background-color:#CCCCCC;}
+			.right{ height:500px; float:left; width:440px;}			
 		</style>
 	</head>
 	<body>
@@ -68,79 +73,100 @@
 		<p>jquery.route.js is NOT a templating engine. jquery.route is strictly for creating statefull navigation between DOM elements. The input and output of routes is arbitrary.</p>
 
 		
-</div>
+		</div>
+		<div class="right">
+
+
+			<div class="stateDiagram">
+			
+			<h1>State Diagram</h1>
+			
+			Current state <div id="currentState">currentStates</div> <br/>
+			Available states <div id="newStates">newStates</div>
+
+			<ul>
+				<li><a href="/blog/I-am-blogging">Blog Post</a></li>
+				<li><a href="/admin">Admin Entry</a></li>				
+				<li><a href="/admin/manage/blog/I-am-blogging">Manage Blog Post</a></li>				
+			</ul>
+					
+			
+			</div>
+
+			<div class="usage">
+				<h2>Default Navigation Override</h2>
+				<p>To perform an override for all default navigational elements you may perform route.override()</p>
+				<div>Here we have a standard HTML form. Since we have used route.override() all forms 
+				will now submit via an ajax post to their route.uri.</div>
+				<form id="theForm" action="/processForms/theForm" method="post">
+					<input name="someProp" type="text" size="5" value="some value"/>
+					<input name="someOtherProp" type="text" size="5" value="another value"/>
+					<input name="submit" type="submit" value="Test Submit Form"/>
+				</form>
+				<div>Here we have some standard HTML links. Since we have used route.override() all &lt;a&gt; will now perform an ajax get their route.uri.</div>  
+					<a href="/blog/I-am-blogging">Blog Post</a>
+					<a href="/admin">Admin Entry</a>
+					<a href="/admin/manage/blog/I-am-blogging">Manage Blog Post</a>
+			</div>	
+		
+		<!-- <br> The most common output methods of jquery.route are: 1. HTML Fragments returned from the server, 2. JSON returned from the server. You could easily integrate with any backend or frontend templating engine. I recommend jquery.template.js for Microtemplating JSON. -->
+				
+			<div>		
+				<h2>Custom Routes</h2>
+				<h3>Simple</h3>
+				<p>Here we have some standard HTML divs.</p>
+				<table>
+					<tr>
+						<td>		
+							<div>
+								<div id="area1" class="button">Click Me</div>
+								<div id="area2" class="button">Click Me</div>
+								<div id="area3" class="button">Click Me</div>
+							</div>
+						</td>
+						<td>		
+							<div>
+								<div id="output1" class="output"></div>
+								<div id="output2" class="output"></div>
+								<div id="output3" class="output"></div>
+							</div>
+						</td>
+					</tr>
+				</table>
+				
+				<p>In jquery.ready() we are going to register routes for each of these divs.</p>
+				
+				<pre>
+					<code>
+						$(document).ready( function(){
+							route.startState('#area1','#/blog/I-am-blogging','click');
+							route.startState('#area2','#/admin','click');
+							route.startState('#area3','#/admin/manage/blog/I-am-blogging','click');
+						});	
+					</code>
+				</pre>		
+			</div>
+				Each of these divs is now associated with seperate routes for the click event. This means when the click event is triggered for any of these elements a new state (the location.hash) will be entered. 
+		
+		
+		<div>		
+				<p>Now we are going to register accepting states that execute when their state is entered.</p>
+				<pre>
+					<code>
+						$(document).ready( function(){
+							route.acceptState('#output1','#/blog/I-am-blogging','REMOTE','HTML','webservice.com/blog/I-am-blogging.html');
+							route.acceptState('#output2','#/admin','REMOTE','HTML','webservice.com/admin.html');
+							route.acceptState('#output3','#/admin/manage/blog/I-am-blogging','REMOTE','HTML','webservice.com/admin/manage/blog/I-am-blogging.html');
+						});
+		
+					</code>
+				</pre>		
+			</div>
+
+		</div>
 
 <hr/>
 
-	<div class="usage">
-		<h2>Default Navigation Override</h2>
-		<p>To perform an override for all default navigational elements you may perform route.override()</p>
-        <div>Here we have a standard HTML form. Since we have used route.override() all forms 
-        will now submit via an ajax post to their route.uri.</div>
-        <form id="theForm" action="/processForms/theForm" method="post">
-        	<input name="someProp" type="text" size="5" value="some value"/>
-            <input name="someOtherProp" type="text" size="5" value="another value"/>
-        	<input name="submit" type="submit" value="Test Submit Form"/>
-        </form>
-        <div>Here we have some standard HTML links. Since we have used route.override() all &lt;a&gt; will now perform an ajax get their route.uri.</div>  
-	        <a href="/blog/I-am-blogging">Blog Post</a>
-	        <a href="/admin">Admin Entry</a>
-	        <a href="/admin/manage/blog/I-am-blogging">Manage Blog Post</a>
-	</div>	
-
-<!-- <br> The most common output methods of jquery.route are: 1. HTML Fragments returned from the server, 2. JSON returned from the server. You could easily integrate with any backend or frontend templating engine. I recommend jquery.template.js for Microtemplating JSON. -->
-		
-	<div>		
-		<h2>Custom Routes</h2>
-		<h3>Simple</h3>
-        <p>Here we have some standard HTML divs.</p>
-		<table>
-			<tr>
-				<td>		
-					<div>
-						<div id="area1" class="button">Click Me</div>
-						<div id="area2" class="button">Click Me</div>
-						<div id="area3" class="button">Click Me</div>
-					</div>
-				</td>
-				<td>		
-					<div>
-				        <div id="output1" class="output"></div>
-    				    <div id="output2" class="output"></div>
-				        <div id="output3" class="output"></div>
-					</div>
-				</td>
-			</tr>
-		</table>
-		
-        <p>In jquery.ready() we are going to register routes for each of these divs.</p>
-		
-		<pre>
-			<code>
-				$(document).ready( function(){
-					route.startState('#area1','#/blog/I-am-blogging','click');
-					route.startState('#area2','#/admin','click');
-					route.startState('#area3','#/admin/manage/blog/I-am-blogging','click');
-				});	
-			</code>
-		</pre>		
-	</div>
-		Each of these divs is now associated with seperate routes for the click event. This means when the click event is triggered for any of these elements a new state (the location.hash) will be entered. 
-
-
-<div>		
-        <p>Now we are going to register accepting states that execute when their state is entered.</p>
-		<pre>
-			<code>
-				$(document).ready( function(){
-					route.acceptState('#output1','#/blog/I-am-blogging','REMOTE','HTML','webservice.com/blog/I-am-blogging.html');
-					route.acceptState('#output2','#/admin','REMOTE','HTML','webservice.com/admin.html');
-					route.acceptState('#output3','#/admin/manage/blog/I-am-blogging','REMOTE','HTML','webservice.com/admin/manage/blog/I-am-blogging.html');
-				});
-
-			</code>
-		</pre>		
-	</div>
         
 
     </body>
