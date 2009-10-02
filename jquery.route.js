@@ -24,14 +24,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 */
 
-
 /*********************************************************************** 
 
-  jquery.route.js enables you to create "routes" based on a unique URI
-  routes are states that may have events bound to them  routes can be 
-  triggered anywhere by calling route('/foo').run()
-  this is a javascript implementation of Inversion of Control
-
+  jquery.route.js enables you to create "routes" based on a unique path
+  a route can be considered a unique state
+  a route may have multiple events bound to them
+  a route can be triggered by calling route('/foo').run()
+  
   *** http://en.wikipedia.org/wiki/Inversion_of_control ***
      	    *** "Don't call us, we'll call you" ***
 
@@ -41,13 +40,14 @@ OTHER DEALINGS IN THE SOFTWARE.
   route('#/account').bind(customMethod2);			
 			
   route('#/websites').bind(customMethod);
-  route('#/websites').bind(customMethod2);			
+  route('#/websites').bind(function(){
+	alert('custom closure');
+  });			
 			
   route('#/account').run();
   route('#/websites').run();
 			
 *************************************************************************/
-
 var route=function(path){
   return new route.fn.init(path);
 }
@@ -62,17 +62,15 @@ route.fn = route.prototype = {
     if(typeof routes[this.path].events == 'undefined'){routes[this.path].events=new Array();}
 	routes[this.path].events.push(fn);
 	$(document).data('routes', routes);
- 	return 'bind successful';
   },
   run: function() {
-	/* routes stored globally using $(document).data() */  
+	/* routes are stored globally using $(document).data() */  
 	var routes = $(document).data('routes') || {};
 	if(typeof routes[this.path] == 'undefined'){routes[this.path]={};}	
     if(typeof routes[this.path].events == 'undefined'){routes[this.path].events=new Array();}
 	for(var i=0; i<routes[this.path].events.length; i++){
 	  routes[this.path].events[i]();  
 	}
-	return 'run successful'; 
   }
 };
 route.fn.init.prototype = route.fn;
