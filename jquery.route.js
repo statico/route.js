@@ -75,19 +75,19 @@ route.fn = route.prototype = {
   },
   bind: function(fn) {
     var routes = $(document).data('routes') || {};
-	if(typeof routes[this.path] == 'undefined'){routes[this.path]={};}	
+    if(typeof routes[this.path] == 'undefined'){routes[this.path]={};}	
     if(typeof routes[this.path].events == 'undefined'){routes[this.path].events=new Array();}
-	routes[this.path].events.push(fn);
-	$(document).data('routes', routes);
+    routes[this.path].events.push(fn);
+    $(document).data('routes', routes);
   },
   run: function() {
-	/* routes are stored globally using $(document).data() */  
-	var routes = $(document).data('routes') || {};
-	if(typeof routes[this.path] == 'undefined'){routes[this.path]={};}	
+    /* routes are stored globally using $(document).data() */  
+    var routes = $(document).data('routes') || {};
+    if(typeof routes[this.path] == 'undefined'){routes[this.path]={};}	
     if(typeof routes[this.path].events == 'undefined'){routes[this.path].events=new Array();}
-	for(var i=0; i<routes[this.path].events.length; i++){
-	  routes[this.path].events[i]();  
-	}
+    for(var i=0; i<routes[this.path].events.length; i++){
+      routes[this.path].events[i]();  
+    }
   }
 };
 route.fn.init.prototype = route.fn;
