@@ -46,6 +46,11 @@ OTHER DEALINGS IN THE SOFTWARE.
   route('#/account').run();
   route('#/websites').run();
 
+  WHERE THE ROUTES AT? 
+  
+  All routes are stored globally in $(document).data()
+  console.log($(document).data('routes'));
+  
   PROTIP: Use a Dispatcher!
 
   var Biggie={};
@@ -81,7 +86,6 @@ route.fn = route.prototype = {
     $(document).data('routes', routes);
   },
   run: function() {
-    /* routes are stored globally using $(document).data() */  
     var routes = $(document).data('routes') || {};
     if(typeof routes[this.path] == 'undefined'){routes[this.path]={};}	
     if(typeof routes[this.path].events == 'undefined'){routes[this.path].events=new Array();}
