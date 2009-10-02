@@ -1,4 +1,4 @@
-/* Copyright (c) 2009 Marak Squires
+/* Copyright (c) 2009 Marak Squires - www.maraksquires.com
  
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
