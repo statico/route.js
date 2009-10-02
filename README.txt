@@ -1,9 +1,9 @@
 /*********************************************************************** 
 
-  jquery.route.js enables you to create "routes" based on a unique URI
-  routes are states that may have events bound to them  routes can be 
-  triggered anywhere by calling route('/foo').run()
-  this is a javascript implementation of Inversion of Control
+  jquery.route.js enables you to create "routes" based on a unique path
+  a route can be considered a unique state
+  a route may have multiple functions bound to them
+  a route can be triggered by calling route('/foo').run()
 
   *** http://en.wikipedia.org/wiki/Inversion_of_control ***
      	    *** "Don't call us, we'll call you" ***

@@ -1,5 +1,4 @@
-/*
-Copyright (c) 2009 Marak Squires
+/* Copyright (c) 2009 Marak Squires
  
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -28,7 +27,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
   jquery.route.js enables you to create "routes" based on a unique path
   a route can be considered a unique state
-  a route may have multiple events bound to them
+  a route may have multiple functions bound to them
   a route can be triggered by calling route('/foo').run()
   
   *** http://en.wikipedia.org/wiki/Inversion_of_control ***
