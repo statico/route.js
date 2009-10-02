@@ -45,7 +45,25 @@ OTHER DEALINGS IN THE SOFTWARE.
 			
   route('#/account').run();
   route('#/websites').run();
-			
+
+  PROTIP: Use a Dispatcher!
+
+  var Biggie={};
+  Biggie._hashchange_last = '';
+  Biggie._onhashchange=function(){
+    if(Biggie._hashchange_last!=location.hash){
+      Biggie._hashchange_last=location.hash;
+	  route(location.hash).run();
+    }
+  }
+
+  setInterval(function () {Biggie._onhashchange();}, 50);
+  
+
+  Now, instead of calling route('#/websites').run() directly
+  you could simply modify the location.hash to #/websites and 
+  the route would trigger its events!
+
 *************************************************************************/
 var route=function(path){
   return new route.fn.init(path);

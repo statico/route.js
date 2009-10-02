@@ -31,7 +31,7 @@
     }
   }
 
-  setInterval(function () {Biggie._onhashchange();}, 50)
+  setInterval(function () {Biggie._onhashchange();}, 50);
   
 
   Now, instead of calling route('#/websites').run() directly
