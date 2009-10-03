@@ -1,6 +1,6 @@
 /*********************************************************************** 
 
-  jquery.route.js enables you to create "routes" based on a unique path
+  route.js enables you to create "routes" based on a unique path
   a route can be considered a unique state
   a route may have multiple functions bound to them
   a route can be triggered by calling route('/foo').run()
@@ -19,6 +19,10 @@
   route('#/account').run();
   route('#/websites').run();
 			
+  WHERE THE ROUTES AT?
+  
+  All routes are stored globally in $(document).data()
+  console.log($(document).data('routes'));
 
   PROTIP: Use a Dispatcher!
 
