@@ -21,7 +21,7 @@
 			
   WHERE THE ROUTES AT?
   
-  All routes are stored globally in $(document).data()
+  All routes are stored globally in window['routes']
   console.log(window['routes']);
 
   PROTIP: Use a Dispatcher!
