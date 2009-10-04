@@ -82,7 +82,9 @@ route.fn = route.prototype = {
     this.events=window['routes'][path].events;	
   },
   bind: function(fn) {
-    this.events.push(fn);
+    if(typeof fn == 'function'){
+      this.events.push(fn);
+    }
   },
   run: function() {
     for(var i=0; i<this.events.length; i++){
