@@ -19,6 +19,11 @@
   route('#/account').run();
   route('#/websites').run();
 			
+  REGEX MATCHING:
+
+  When calling route(path) you may specify a REGEX string for path
+
+
   WHERE THE ROUTES AT?
   
   All routes are stored globally in window['routes']
