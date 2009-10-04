@@ -84,28 +84,28 @@ route.fn = route.prototype = {
   init: function(path) {
     /* lazy init window['routes'] */
     if(typeof window['routes'] == 'undefined'){window['routes']={};}
-	
-	if(typeof path=='undefined'){return;}
+    if(typeof path=='undefined'){return;}
 
-	/* wrap path as whole word match */
-	this.path='\b'+path+'\b';
-	this.events=new Array();
+    /* wrap path as whole word match */
+    this.path='\b'+path+'\b';
+    this.events=new Array();
 
     for(r in window['routes']){ /* iterate through all existing routes */
-	  if(r.search(new RegExp(this.path, 'i'))==0){ /* search existing route based on path REGEX */
+      if(r.search(new RegExp(this.path, 'i'))==0){ /* search existing route based on path REGEX */
+
         /* a match has been found, assign matched route to current route instance */
-	    this.path=r;
+        this.path=r;
 
         /* lazy init window['routes'][path].events */
-		if(typeof window['routes'][this.path].events == 'undefined'){window['routes'][this.path].events=new Array();}
-		this.events=window['routes'][this.path].events;
-		return;
-	  }
-	}
+        if(typeof window['routes'][this.path].events == 'undefined'){window['routes'][this.path].events=new Array();}
+        this.events=window['routes'][this.path].events;
+        return;
+      }
+    }
 
     /* since no matches were found lazy init empty route based on path */		
-	window['routes'][this.path]={};
-	window['routes'][this.path].events=new Array();
+    window['routes'][this.path]={};
+    window['routes'][this.path].events=new Array();
   },
   bind: function(fn) {
     if(typeof fn == 'function'){
