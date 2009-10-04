@@ -75,17 +75,18 @@ var route=function(path){
 }
 route.fn = route.prototype = {
   init: function(path) {
-    this.path = path;
     if(typeof window['routes'] == 'undefined'){window['routes']={};}	
-    if(typeof window['routes'][this.path] == 'undefined'){window['routes'][this.path]={};}	
-    if(typeof window['routes'][this.path].events == 'undefined'){window['routes'][this.path].events=new Array();}
+    if(typeof window['routes'][path] == 'undefined'){window['routes'][path]={};}	
+    if(typeof window['routes'][path].events == 'undefined'){window['routes'][path].events=new Array();}
+    this.path=path;
+    this.events=window['routes'][path].events;	
   },
   bind: function(fn) {
-    window['routes'][this.path].events.push(fn);
+    this.events.push(fn);
   },
   run: function() {
-    for(var i=0; i<window['routes'][this.path].events.length; i++){
-      window['routes'][this.path].events[i]();  
+    for(var i=0; i<this.events.length; i++){
+      this.events[i]();  
     }
   }
 };
