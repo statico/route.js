@@ -48,7 +48,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
   WHERE THE ROUTES AT? 
   
-  All routes are stored globally in $(document).data()
+  All routes are stored globally in window['routes']
   console.log(window['routes']);
   
   PROTIP: Use a Dispatcher!
@@ -75,22 +75,17 @@ var route=function(path){
 }
 route.fn = route.prototype = {
   init: function(path) {
-	  this.path = path;
-	  return true;
+    this.path = path;
+	if(typeof window['routes'] == 'undefined'){window['routes']={};}	
+	if(typeof window['routes'][this.path] == 'undefined'){window['routes'][this.path]={};}	
+    if(typeof window['routes'][this.path].events == 'undefined'){window['routes'][this.path].events=new Array();}
   },
   bind: function(fn) {
-    var routes = window['routes'] || {};
-    if(typeof routes[this.path] == 'undefined'){routes[this.path]={};}	
-    if(typeof routes[this.path].events == 'undefined'){routes[this.path].events=new Array();}
-    routes[this.path].events.push(fn);
-    window['routes']=routes;
+	window['routes'][this.path].events.push(fn);
   },
   run: function() {
-    var routes = window['routes'] || {};
-    if(typeof routes[this.path] == 'undefined'){routes[this.path]={};}	
-    if(typeof routes[this.path].events == 'undefined'){routes[this.path].events=new Array();}
-    for(var i=0; i<routes[this.path].events.length; i++){
-      routes[this.path].events[i]();  
+    for(var i=0; i<window['routes'][this.path].events.length; i++){
+      window['routes'][this.path].events[i]();  
     }
   }
 };
