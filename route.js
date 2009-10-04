@@ -34,6 +34,7 @@ OTHER DEALINGS IN THE SOFTWARE.
      	    *** "Don't call us, we'll call you" ***
 
   USAGE:
+
 	
   route('#/account').bind(customMethod);
   route('#/account').bind(customMethod2);			
@@ -45,6 +46,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 			
   route('#/account').run();
   route('#/websites').run();
+
+  REGEX MATCHING:
+
+  When calling route(path) you may specify a REGEX string for path.
+
 
   WHERE THE ROUTES AT? 
   
@@ -70,26 +76,47 @@ OTHER DEALINGS IN THE SOFTWARE.
   the route would trigger its events!
 
 *************************************************************************/
+
 var route=function(path){
   return new route.fn.init(path);
 }
 route.fn = route.prototype = {
   init: function(path) {
-    if(typeof window['routes'] == 'undefined'){window['routes']={};}	
-    if(typeof window['routes'][path] == 'undefined'){window['routes'][path]={};}	
-    if(typeof window['routes'][path].events == 'undefined'){window['routes'][path].events=new Array();}
-    this.path=path;
-    this.events=window['routes'][path].events;	
+    /* lazy init window['routes'] */
+    if(typeof window['routes'] == 'undefined'){window['routes']={};}
+	
+	if(typeof path=='undefined'){return;}
+
+	/* wrap path as whole word match */
+	this.path='\b'+path+'\b';
+	this.events=new Array();
+
+    for(r in window['routes']){ /* iterate through all existing routes */
+	  if(r.search(new RegExp(this.path, 'i'))==0){ /* search existing route based on path REGEX */
+        /* a match has been found, assign matched route to current route instance */
+	    this.path=r;
+
+        /* lazy init window['routes'][path].events */
+		if(typeof window['routes'][this.path].events == 'undefined'){window['routes'][this.path].events=new Array();}
+		this.events=window['routes'][this.path].events;
+		return;
+	  }
+	}
+
+    /* since no matches were found lazy init empty route based on path */		
+	window['routes'][this.path]={};
+	window['routes'][this.path].events=new Array();
   },
   bind: function(fn) {
     if(typeof fn == 'function'){
-      this.events.push(fn);
+      window['routes'][this.path].events.push(fn);
     }
   },
   run: function() {
     for(var i=0; i<this.events.length; i++){
       this.events[i]();  
     }
-  }
+  },
+  events: new Array()
 };
 route.fn.init.prototype = route.fn;
