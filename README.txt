@@ -4,30 +4,41 @@
   a route can be considered a unique state
   a route may have multiple functions bound to them
   a route can be triggered by calling route('/foo').run()
-
+  
   *** http://en.wikipedia.org/wiki/Inversion_of_control ***
      	    *** "Don't call us, we'll call you" ***
 
   USAGE:
+
 	
   route('#/account').bind(customMethod);
   route('#/account').bind(customMethod2);			
 			
   route('#/websites').bind(customMethod);
-  route('#/websites').bind(customMethod2);			
+  route('#/websites').bind(function(){
+	alert('custom closure');
+  });			
 			
   route('#/account').run();
   route('#/websites').run();
-			
-  REGEX MATCHING:
 
-  When calling route(path) you may specify a REGEX string for path
-
-
-  WHERE THE ROUTES AT?
+  WHERE THE ROUTES AT? 
   
   All routes are stored globally in window['routes']
   console.log(window['routes']);
+
+  ROUTE ACQUISITION:
+
+  If an immediate match isn't found for route(path) then the route will bubble 
+  to the next parent route with each key appended as an arguments hash 
+  
+  route('#/account/marak.squires').run();
+  
+  No match found for '#/account/marak.squires'
+  Attempting to match '#/account', injecting arguments {'marak.squires':{}}
+  Match found for '#/account', running customMethod and customMethod2.
+
+  Arguments are available as a global reference in windows.routes.args
 
   PROTIP: Use a Dispatcher!
 
@@ -46,5 +57,6 @@
   Now, instead of calling route('#/websites').run() directly
   you could simply modify the location.hash to #/websites and 
   the route would trigger its events!
+
 
 *************************************************************************/
