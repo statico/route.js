@@ -152,7 +152,7 @@ route.fn = route.prototype = {
 			//console.log('match found for ' + this.path);
 		window['routes'].args = args;
 		for(var i=0; i<window['routes'][this.path].events.length; i++){
-		  window['routes'][this.path].events[i]();  
+		  window['routes'][this.path].events[i](args);  
 		}
 	}
   },
