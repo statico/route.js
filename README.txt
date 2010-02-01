@@ -27,18 +27,27 @@
   All routes are stored globally in window['routes']
   console.log(window['routes']);
 
-  ROUTE ACQUISITION:
+  ROUTE PATTERN MATCHING  (aka Sinatra routing):
 
-  If an immediate match isn't found for route(path) then the route will bubble 
-  to the next parent route with each key appended as an arguments hash 
-  
-  route('#/account/marak.squires').run();
-  
-  No match found for '#/account/marak.squires'
-  Attempting to match '#/account', injecting arguments {'marak.squires':{}}
-  Match found for '#/account', running customMethod and customMethod2.
+  add docs here
 
-  Arguments are available as a global reference in windows.routes.args
+  ASPECTS OF THE ROUTE (aka Apsect Oriented Programming)
+
+  var myBefore = function(){
+    alert('before()');
+  };
+	
+  var myAfter = function(){
+    alert('after()');
+  };
+	
+  var myExit= function(){
+    alert('exit()');
+  };
+
+  route('#/Learn/:topic').before(myBefore);
+  route('#/Learn/:topic').after(myAfter);
+  route('#/Learn/:topic').exit(myExit);
 
   PROTIP: Use a Dispatcher!
 
@@ -57,6 +66,5 @@
   Now, instead of calling route('#/websites').run() directly
   you could simply modify the location.hash to #/websites and 
   the route would trigger its events!
-
 
 *************************************************************************/
